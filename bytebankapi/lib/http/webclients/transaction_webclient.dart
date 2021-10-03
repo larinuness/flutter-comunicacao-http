@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:bytebank/http/webclient.dart';
-import 'package:bytebank/models/transaction.dart';
+import '../webclient.dart';
+import '../../models/transaction.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart';
 
 class TransactionWebClient {
@@ -14,17 +15,24 @@ class TransactionWebClient {
         .toList();
   }
 
-  Future<Transaction> save(Transaction transaction) async {
+  Future<Transaction> save(
+      Transaction transaction, String password, BuildContext context) async {
     final String transactionJson = jsonEncode(transaction.toJson());
 
     final Response response = await client.post(baseUrl,
         headers: {
           'Content-type': 'application/json',
-          'password': '1000',
+          'password': password,
         },
         body: transactionJson);
+        
+    if (response.statusCode == 400) {
+      throw Exception('Ocorreu um erro durante a transação');
+    }
 
+    if (response.statusCode == 401) {
+      throw Exception('Autenticação falhou');
+    }
     return Transaction.fromJson(jsonDecode(response.body));
   }
-
 }

@@ -1,5 +1,5 @@
-import 'package:bytebank/screens/contacts_list.dart';
-import 'package:bytebank/screens/transactions_list.dart';
+import 'contacts_list.dart';
+import 'transactions_list.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -24,12 +24,12 @@ class Dashboard extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: <Widget>[
                 _FeatureItem(
-                  'Transfer',
+                  'Transferencias',
                   Icons.monetization_on,
                   onClick: () => _showContactsList(context),
                 ),
                 _FeatureItem(
-                  'Transaction Feed',
+                  'Lista de Transferências',
                   Icons.description,
                   onClick: () => _showTransactionsList(context),
                 ),
@@ -72,7 +72,7 @@ class _FeatureItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(bottom: 18.0, left: 12.0),
       child: Material(
         color: Theme.of(context).primaryColor,
         child: InkWell(

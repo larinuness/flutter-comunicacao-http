@@ -1,7 +1,7 @@
-import 'package:bytebank/components/centered_message.dart';
-import 'package:bytebank/components/progress.dart';
-import 'package:bytebank/http/webclients/transaction_webclient.dart';
-import 'package:bytebank/models/transaction.dart';
+import '../components/centered_message.dart';
+import '../components/progress.dart';
+import '../http/webclients/transaction_webclient.dart';
+import '../models/transaction.dart';
 import 'package:flutter/material.dart';
 
 class TransactionsList extends StatelessWidget {
@@ -12,7 +12,7 @@ class TransactionsList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[900],
-        title: Text('Transactions'),
+        title: Text('Transações'),
       ),
       body: FutureBuilder<List<Transaction>>(
         future: _webClient.findAll(),
@@ -36,14 +36,17 @@ class TransactionsList extends StatelessWidget {
                         child: ListTile(
                           leading: Icon(Icons.monetization_on),
                           title: Text(
-                            transaction.value.toString(),
+                            "R\$ " +
+                                transaction.value
+                                    .toString()
+                                    .replaceAll(".", ","),
                             style: TextStyle(
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           subtitle: Text(
-                            transaction.contact.accountNumber.toString(),
+                            '${transaction.contact.name} | Conta: ${transaction.contact.accountNumber.toString()}',
                             style: TextStyle(
                               fontSize: 16.0,
                             ),
@@ -56,13 +59,13 @@ class TransactionsList extends StatelessWidget {
                 }
               }
               return CenteredMessage(
-                'No transactions found',
+                'Transações não encontradas',
                 icon: Icons.warning,
               );
               break;
           }
 
-          return CenteredMessage('Unknown error');
+          return CenteredMessage('Erro desconhecido');
         },
       ),
     );

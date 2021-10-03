@@ -1,8 +1,8 @@
-import 'package:bytebank/components/progress.dart';
-import 'package:bytebank/database/dao/contact_dao.dart';
-import 'package:bytebank/models/contact.dart';
-import 'package:bytebank/screens/contact_form.dart';
-import 'package:bytebank/screens/transaction_form.dart';
+import '../components/progress.dart';
+import '../database/dao/contact_dao.dart';
+import '../models/contact.dart';
+import 'contact_form.dart';
+import 'transaction_form.dart';
 import 'package:flutter/material.dart';
 
 class ContactsList extends StatefulWidget {
@@ -18,7 +18,7 @@ class _ContactsListState extends State<ContactsList> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[900],
-        title: Text('Transfer'),
+        title: Text('Transferir'),
       ),
       body: FutureBuilder<List<Contact>>(
         initialData: [],
@@ -52,7 +52,7 @@ class _ContactsListState extends State<ContactsList> {
               );
               break;
           }
-          return Text('Unknown error');
+          return Text('Erro des');
         },
       ),
       floatingActionButton: FloatingActionButton(

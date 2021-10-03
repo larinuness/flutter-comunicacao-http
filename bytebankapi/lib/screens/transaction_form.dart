@@ -1,7 +1,10 @@
-import 'package:bytebank/http/webclients/transaction_webclient.dart';
-import 'package:bytebank/models/contact.dart';
-import 'package:bytebank/models/transaction.dart';
 import 'package:flutter/material.dart';
+
+import '../components/response_dialog.dart';
+import '../components/transaction_auth_dialog.dart';
+import '../http/webclients/transaction_webclient.dart';
+import '../models/contact.dart';
+import '../models/transaction.dart';
 
 class TransactionForm extends StatefulWidget {
   final Contact contact;
@@ -21,7 +24,7 @@ class _TransactionFormState extends State<TransactionForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[900],
-        title: Text('New transaction'),
+        title: Text('Nova transação'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -47,11 +50,16 @@ class _TransactionFormState extends State<TransactionForm> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
-                child: TextField(
+                child: TextFormField(
                   controller: _valueController,
+                  validator: (value) {
+                    if (value.isEmpty) return "Insira um valor";
+
+                    return null;
+                  },
                   style: TextStyle(fontSize: 24.0),
                   decoration: InputDecoration(
-                      labelText: 'Value',
+                      labelText: 'Valor',
                       labelStyle: TextStyle(color: Colors.green),
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.green[900]))),
@@ -62,20 +70,28 @@ class _TransactionFormState extends State<TransactionForm> {
                 padding: const EdgeInsets.only(top: 16.0),
                 child: SizedBox(
                   width: double.maxFinite,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.green[900]),
-                    child: Text('Transfer'),
-                    onPressed: () {
-                      final double value =
-                          double.tryParse(_valueController.text);
-                      final transactionCreated =
-                          Transaction(value, widget.contact);
-                      _webClient.save(transactionCreated).then((transaction) {
-                        if (transaction != null) {
-                          Navigator.pop(context);
-                        }
-                      });
-                    },
+                  child: Container(
+                    height: 50,
+                    child: ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(primary: Colors.green[900]),
+                      child: Text('Transferir'),
+                      onPressed: () {
+                        final double value =
+                            double.tryParse(_valueController.text);
+                        final transactionCreated =
+                            Transaction(value, widget.contact);
+                        showDialog(
+                            context: context,
+                            builder: (contextDialog) {
+                              return TransactionAuthDialog(
+                                onConfirm: (String password) {
+                                  _save(transactionCreated, password, context);
+                                },
+                              );
+                            });
+                      },
+                    ),
                   ),
                 ),
               )
@@ -84,5 +100,24 @@ class _TransactionFormState extends State<TransactionForm> {
         ),
       ),
     );
+  }
+
+  void _save(Transaction transactionCreated, String password,
+      BuildContext context) async {
+    _webClient.save(transactionCreated, password, context).then((transaction) {
+      if (transaction != null) {
+        showDialog(
+            context: context,
+            builder: (contextDialog) {
+              return SuccessDialog('Transação feita com sucesso');
+            }).then((value) => Navigator.pop(context));
+      }
+    }).catchError((e) {
+      showDialog(
+          context: context,
+          builder: (contextDialog) {
+            return FailureDialog(e.message);
+          });
+    });
   }
 }

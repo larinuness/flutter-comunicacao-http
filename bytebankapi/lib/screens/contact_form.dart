@@ -1,5 +1,5 @@
-import 'package:bytebank/database/dao/contact_dao.dart';
-import 'package:bytebank/models/contact.dart';
+import '../database/dao/contact_dao.dart';
+import '../models/contact.dart';
 import 'package:flutter/material.dart';
 
 class ContactForm extends StatefulWidget {
@@ -18,7 +18,7 @@ class _ContactFormState extends State<ContactForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[900],
-        title: Text('New contact'),
+        title: Text('Novo Contato'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -27,7 +27,7 @@ class _ContactFormState extends State<ContactForm> {
             TextField(
               controller: _nameController,
               decoration: InputDecoration(
-                labelText: 'Full name',
+                labelText: 'Nome completo',
                 labelStyle: TextStyle(color: Colors.green[900]),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.green[900]),
@@ -42,7 +42,7 @@ class _ContactFormState extends State<ContactForm> {
               child: TextField(
                 controller: _accountNumberController,
                 decoration: InputDecoration(
-                  labelText: 'Account number',
+                  labelText: 'Numero da conta',
                   labelStyle: TextStyle(color: Colors.green[900]),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.green[900]),
@@ -60,7 +60,7 @@ class _ContactFormState extends State<ContactForm> {
                 width: double.maxFinite,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(primary: Colors.green[900]),
-                  child: Text('Create'),
+                  child: Text('Criar'),
                   onPressed: () {
                     final String name = _nameController.text;
                     final int accountNumber =
