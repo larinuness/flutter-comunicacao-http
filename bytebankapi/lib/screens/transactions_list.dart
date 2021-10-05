@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import '../components/centered_message.dart';
 import '../components/progress.dart';
 import '../http/webclients/transaction_webclient.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 
 class TransactionsList extends StatelessWidget {
   final TransactionWebClient _webClient = TransactionWebClient();
+  final formatacaoReal = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +37,12 @@ class TransactionsList extends StatelessWidget {
                       final Transaction transaction = transactions[index];
                       return Card(
                         child: ListTile(
-                          leading: Icon(Icons.monetization_on),
+                          leading: Icon(Icons.monetization_on,
+                              color: Colors.yellow[700]),
                           title: Text(
-                            "R\$ " +
-                                transaction.value
-                                    .toString()
-                                    .replaceAll(".", ","),
+                            formatacaoReal.format(transaction.value),
                             style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 22.0,
                             ),
                           ),
                           subtitle: Text(

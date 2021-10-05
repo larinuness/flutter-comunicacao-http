@@ -52,7 +52,7 @@ class _ContactsListState extends State<ContactsList> {
               );
               break;
           }
-          return Text('Erro des');
+          return Text('Erro desconhecido');
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -94,7 +94,7 @@ class _ContactItem extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          contact.accountNumber.toString(),
+          'Conta: ${contact.accountNumber.toString()}',
           style: TextStyle(
             fontSize: 16.0,
           ),

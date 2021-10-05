@@ -73,31 +73,33 @@ class _FeatureItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18.0, left: 12.0),
-      child: Material(
-        color: Theme.of(context).primaryColor,
-        child: InkWell(
-          onTap: () => onClick(),
-          child: Container(
-            padding: EdgeInsets.all(8.0),
-            width: 150,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Icon(
-                  icon,
+      child: ElevatedButton(
+        onPressed: () => onClick(),
+        //deixa borda do botao arredondada
+        style: ElevatedButton.styleFrom(
+            primary: Colors.green[900],
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30))),
+        child: Container(
+          padding: EdgeInsets.all(8.0),
+          width: 130,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Icon(
+                icon,
+                color: Colors.white,
+                size: 24.0,
+              ),
+              Text(
+                name,
+                style: TextStyle(
                   color: Colors.white,
-                  size: 24.0,
+                  fontSize: 16.0,
                 ),
-                Text(
-                  name,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),
